@@ -11,8 +11,8 @@ import (
 	"context"
 )
 
-func (r *queryResolver) Author(ctx context.Context, name *string) (*model.Author, error) {
-	return usecase.GetAuthorByIdAndAllRespectiveBooks(repository.Author{}, name)
+func (r *queryResolver) Authors(ctx context.Context, name *string) ([]*model.Author, error) {
+	return usecase.GetAuthorsByNameAndAllRespectiveBooks(repository.Author{}, name)
 }
 
 func (r *queryResolver) Books(ctx context.Context) ([]*model.Book, error) {
