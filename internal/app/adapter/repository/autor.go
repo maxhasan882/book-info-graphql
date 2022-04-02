@@ -10,14 +10,14 @@ import (
 
 type Author struct{}
 
-func (a Author) GetAuthorByName(name *string) (*model.Author, error) {
+func (a Author) GetAuthorByName(name *string) ([]*model.Author, error) {
 	database, err := dbConn.GetDatabase()
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
-	var author *db.Author
-	database.Preload("Books").Where("name = ?", name).First(&author)
+	var authors []*db.Author
+	database.Preload("Books").Where("name = ?", name).Find(&authors)
 	authorFactory := factory.Author{}
-	return authorFactory.Generate(author), nil
+	return authorFactory.Generate(authors), nil
 }

@@ -58,13 +58,13 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Author func(childComplexity int, name *string) int
-		Books  func(childComplexity int) int
+		Authors func(childComplexity int, name *string) int
+		Books   func(childComplexity int) int
 	}
 }
 
 type QueryResolver interface {
-	Author(ctx context.Context, name *string) (*model.Author, error)
+	Authors(ctx context.Context, name *string) ([]*model.Author, error)
 	Books(ctx context.Context) ([]*model.Book, error)
 }
 
@@ -146,17 +146,17 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Book.Title(childComplexity), true
 
-	case "Query.author":
-		if e.complexity.Query.Author == nil {
+	case "Query.authors":
+		if e.complexity.Query.Authors == nil {
 			break
 		}
 
-		args, err := ec.field_Query_author_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_authors_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.Query.Author(childComplexity, args["name"].(*string)), true
+		return e.complexity.Query.Authors(childComplexity, args["name"].(*string)), true
 
 	case "Query.books":
 		if e.complexity.Query.Books == nil {
@@ -231,7 +231,7 @@ type Book {
 }
 
 type Query {
-  author(name: String): Author!
+  authors(name: String): [Author!]!
   books: [Book!]!
 }`, BuiltIn: false},
 }
@@ -256,7 +256,7 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_author_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_authors_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 *string
@@ -624,7 +624,7 @@ func (ec *executionContext) _Book_authors(ctx context.Context, field graphql.Col
 	return ec.marshalNAuthor2ᚕᚖbookinfoᚋgraphᚋmodelᚐAuthorᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Query_author(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Query_authors(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -641,7 +641,7 @@ func (ec *executionContext) _Query_author(ctx context.Context, field graphql.Col
 
 	ctx = graphql.WithFieldContext(ctx, fc)
 	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Query_author_args(ctx, rawArgs)
+	args, err := ec.field_Query_authors_args(ctx, rawArgs)
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
@@ -649,7 +649,7 @@ func (ec *executionContext) _Query_author(ctx context.Context, field graphql.Col
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Author(rctx, args["name"].(*string))
+		return ec.resolvers.Query().Authors(rctx, args["name"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -661,9 +661,9 @@ func (ec *executionContext) _Query_author(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Author)
+	res := resTmp.([]*model.Author)
 	fc.Result = res
-	return ec.marshalNAuthor2ᚖbookinfoᚋgraphᚋmodelᚐAuthor(ctx, field.Selections, res)
+	return ec.marshalNAuthor2ᚕᚖbookinfoᚋgraphᚋmodelᚐAuthorᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_books(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2117,7 +2117,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
-		case "author":
+		case "authors":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -2126,7 +2126,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_author(ctx, field)
+				res = ec._Query_authors(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -2610,10 +2610,6 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
-
-func (ec *executionContext) marshalNAuthor2bookinfoᚋgraphᚋmodelᚐAuthor(ctx context.Context, sel ast.SelectionSet, v model.Author) graphql.Marshaler {
-	return ec._Author(ctx, sel, &v)
-}
 
 func (ec *executionContext) marshalNAuthor2ᚕᚖbookinfoᚋgraphᚋmodelᚐAuthorᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Author) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))

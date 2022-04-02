@@ -5,5 +5,5 @@ import (
 )
 
 type IAuthor interface {
-	GetAuthorByName(name *string) (*model.Author, error)
+	GetAuthorByName(name *string) ([]*model.Author, error)
 }
