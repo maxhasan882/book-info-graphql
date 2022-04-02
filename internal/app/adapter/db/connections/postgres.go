@@ -1,31 +1,34 @@
 package db
 
 import (
+	"bookinfo/cmd/app/config"
 	"bookinfo/internal/app/adapter/db"
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"log"
 )
 
 type dbConfig struct {
 	host     string
-	port     int
+	port     string
 	user     string
 	dbname   string
 	password string
 }
 
-var config = dbConfig{"localhost", 5432, "postgres", "test", "mithu1996"}
-
 func getDatabaseUrl() string {
+	var _config = dbConfig{config.DBHost, config.DBPort, config.DBUser, config.DBName, config.DBPassword}
 	return fmt.Sprintf(
-		"host=%s port=%d user=%s dbname=%s password=%s",
-		config.host, config.port, config.user, config.dbname, config.password)
+		"host=%s port=%s user=%s dbname=%s password=%s",
+		_config.host, _config.port, _config.user, _config.dbname, _config.password)
 }
 
 func GetDatabase() (*gorm.DB, error) {
-	_db, err := gorm.Open(postgres.Open(getDatabaseUrl()), &gorm.Config{})
+	_db, err := gorm.Open(postgres.Open(getDatabaseUrl()), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	return _db, err
 }
 
