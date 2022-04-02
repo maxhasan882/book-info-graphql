@@ -2,10 +2,15 @@ package main
 
 import (
 	"bookinfo/cmd/app/config"
-	"bookinfo/internal/app/adapter"
-	"github.com/gin-gonic/gin"
+	"bookinfo/graph"
+	"bookinfo/graph/generated"
+	db "bookinfo/internal/app/adapter/db/connections"
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/joho/godotenv"
 	"log"
+	"net/http"
+	"os"
 )
 
 func init() {
@@ -21,21 +26,23 @@ func initEnv() {
 	}
 	config.SetEnvironment()
 	log.Printf("Connecting to database")
-	//db.Connect()
+	con, err := db.GetDatabase()
+	if err != nil {
+		panic(err)
+	}
+	db.RunMigrations(con)
 }
 
-func main() {
-	r := gin.Default()
-	r = adapter.Routes(r)
-	err := r.SetTrustedProxies([]string{"192.168.1.107"})
-	if err != nil {
-		return
-	}
-	r.NoMethod(func(c *gin.Context) {
-		c.JSON(405, gin.H{"payload": "Method Not Allowed"})
-	})
+const defaultPort = "8080"
 
-	if runError := r.Run(":" + config.GinPort); runError != nil {
-		log.Println(runError)
+func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = defaultPort
 	}
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	http.Handle("/query", srv)
+	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

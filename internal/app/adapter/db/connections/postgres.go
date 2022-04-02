@@ -1,9 +1,11 @@
 package db
 
 import (
+	"bookinfo/internal/app/adapter/db"
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"log"
 )
 
 type dbConfig struct {
@@ -14,7 +16,7 @@ type dbConfig struct {
 	password string
 }
 
-var config = dbConfig{"localhost", 6753, "postgres", "test", "postgres"}
+var config = dbConfig{"localhost", 5432, "postgres", "test", "mithu1996"}
 
 func getDatabaseUrl() string {
 	return fmt.Sprintf(
@@ -23,10 +25,13 @@ func getDatabaseUrl() string {
 }
 
 func GetDatabase() (*gorm.DB, error) {
-	db, err := gorm.Open(postgres.Open(getDatabaseUrl()), &gorm.Config{})
-	return db, err
+	_db, err := gorm.Open(postgres.Open(getDatabaseUrl()), &gorm.Config{})
+	return _db, err
 }
 
-//func RunMigrations(db *gorm.DB) {
-//	db.AutoMigrate(&Author{}, &Book{})
-//}
+func RunMigrations(_db *gorm.DB) {
+	err := _db.AutoMigrate(&db.Author{}, &db.Book{})
+	if err != nil {
+		log.Println(err)
+	}
+}
