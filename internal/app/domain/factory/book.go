@@ -9,6 +9,7 @@ import (
 type Book struct {
 }
 
+// Generate Serialize Book data
 func (b Book) Generate(books []*db.Book) []*model.Book {
 	var booksData []*model.Book
 	for _, book := range books {

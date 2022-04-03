@@ -18,6 +18,7 @@ func init() {
 	initEnv()
 }
 
+//initEnv Load and initialize environment Also run migration is any available
 func initEnv() {
 	log.Printf("Loading environment settings.")
 
@@ -49,7 +50,10 @@ func main() {
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
-func loadData(w http.ResponseWriter, req *http.Request) {
+func loadData(w http.ResponseWriter, _ *http.Request) {
 	db.DataLoader()
-	fmt.Fprintf(w, "hello")
+	_, err := fmt.Fprintf(w, "hello")
+	if err != nil {
+		return
+	}
 }

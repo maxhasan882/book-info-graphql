@@ -9,6 +9,7 @@ import (
 type Author struct {
 }
 
+// Generate Serialize Author data
 func (t Author) Generate(authors []*db.Author) []*model.Author {
 	var authorsData []*model.Author
 	for _, author := range authors {

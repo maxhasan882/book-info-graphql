@@ -10,6 +10,7 @@ import (
 
 type Author struct{}
 
+// GetAuthorByName Filter Author by name and get Author and associate Book list
 func (a Author) GetAuthorByName(name *string) ([]*model.Author, error) {
 	database, err := dbConn.GetDatabase()
 	if err != nil {
