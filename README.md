@@ -4,8 +4,9 @@
 </h1>
 <p align="center">A GraphQL server using <b>backend</b> (Golang) <b>database</b> (Postgres) containerised with (Docker)!</p>
 
-[![Go Reference](https://pkg.go.dev/badge/golang.org/x/example.svg)](https://pkg.go.dev/golang.org/x/example)
-![GraphQL](https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white)
+<p align="center"><a href="#" 
+target="_blank"><img src="https://img.shields.io/badge/Go-1.17+-00ADD8?style=for-the-badge&logo=go" alt="go version" /></a>&nbsp;<a href="#" target="_blank"><img src="https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white" alt="GraphQL" /></a>&nbsp;<a href="#" target="_blank"></a></p>
+
 ## 📖 Problem 
 
 Build a simple graphql server with any database you prefer ( in-memory map[string]interface{} will do just fine ) that can perform this simple task. Finding books of all the authors and vice versa.
