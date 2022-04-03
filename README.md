@@ -12,7 +12,8 @@ Using docker
      $ docker-compose down --volume # to make sure to remove shared volume
      $ docker-compose up --build --force-recreate # here --force-recreate is optional
 ```
-- ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) `Note`If you interested to run it from locally without Docker please ensure database and .env exist
+- ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) `Note`If you interested to run it from locally without Docker please ensure database and .env properly configured
+- >go run /cmd/app/main.go
 >Example .env file
 >>_GIN_PORT=8080 \
 GIN_MODE=debug \
