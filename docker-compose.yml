@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres:14.1-alpine
+    environment:
+      POSTGRES_DB: "test"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_PASSWORD: "demo-pass"
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./init.sql:/build/init.sql
+
+  book-info:
+    build:
+      context: .
+      dockerfile: build/Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_NAME=test
+      - DB_PASSWORD=demo-pass
+    depends_on:
+      - database

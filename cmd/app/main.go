@@ -5,6 +5,7 @@ import (
 	"bookinfo/graph"
 	"bookinfo/graph/generated"
 	db "bookinfo/internal/app/adapter/db/connections"
+	"fmt"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/joho/godotenv"
@@ -41,8 +42,14 @@ func main() {
 		port = defaultPort
 	}
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+	http.HandleFunc("/load-data", loadData)
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
+}
+
+func loadData(w http.ResponseWriter, req *http.Request) {
+	db.DataLoader()
+	fmt.Fprintf(w, "hello")
 }
