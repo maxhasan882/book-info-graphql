@@ -10,6 +10,7 @@ import (
 
 type Book struct{}
 
+// GetAllBooks Get all Book with all associate Author list
 func (b Book) GetAllBooks() ([]*model.Book, error) {
 	database, err := dbConn.GetDatabase()
 	if err != nil {
