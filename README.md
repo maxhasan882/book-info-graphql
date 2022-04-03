@@ -27,7 +27,7 @@ DB_NAME=test_
 `Let's visit localhost:port and expolre my graphql api`
 # Folder Structure
 ```
-book-info
+book-info-graphql
 ├── build
 │    ├── Dockerfile
 │    ├── init.sql
