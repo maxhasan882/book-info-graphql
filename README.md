@@ -1,18 +1,22 @@
-# Book and Author information GraphQL API
+<h1 align="center">
+  <img alt="cgapp logo" src="https://raw.githubusercontent.com/create-go-app/cli/master/.github/images/cgapp_logo%402x.png" width="224px"/><br/>
+ Book and Author information GraphQL API
+</h1>
+<p align="center">A GraphQL server using <b>backend</b> (Golang) <b>database</b> (Postgres) containerised with (Docker)!</p>
+
 [![Go Reference](https://pkg.go.dev/badge/golang.org/x/example.svg)](https://pkg.go.dev/golang.org/x/example)
 ![GraphQL](https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white)
-## Problem 
+## 📖 Problem 
 
-How would you construct an event ( message bus ) driven micro-services for the given scenario where a user requested to see his/her order, profile, and invoices but the data is distributed separately among Order, Profile, and Invoice Micro Services each containing its own Database. Kindly, please illustrate with a diagram.
-
-## Setup
+Build a simple graphql server with any database you prefer ( in-memory map[string]interface{} will do just fine ) that can perform this simple task. Finding books of all the authors and vice versa.
+## ⚡️ Quick start
 ```shell
 Using docker
      $ go test ./...  # run from root of the project directory 
      $ docker-compose down --volume # to make sure to remove shared volume
      $ docker-compose up --build --force-recreate # here --force-recreate is optional
 ```
-- ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) `Note`If you interested to run it from locally without Docker please ensure database and .env properly configured
+🔔 `Note`If you interested to run it from locally without Docker please ensure database and .env properly configured
 - >go run /cmd/app/main.go
 >Example .env file
 >>_GIN_PORT=8080 \
@@ -23,11 +27,11 @@ DB_USER=test \
 DB_PASSWORD=test \
 DB_NAME=test_
 
-### Populate demo data
+### ✍️ Populate demo data
 > for populating demo data please visit `localhost:port/load-data`
 
-`Let's visit localhost:port and expolre my graphql api`
-# Folder Structure
+🤾‍♂️ `Let's visit localhost:port and expolre my graphql api`
+# 📋 Folder Structure 
 ```
 book-info-graphql
 ├── build
@@ -50,7 +54,7 @@ book-info-graphql
 │              └── factory
 └── .env
 ```
-# GraphQl query
+# ❓ GraphQl query
 ![A test image](graph_ql_example.png)
 
 ```graphql
