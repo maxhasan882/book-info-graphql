@@ -12,7 +12,8 @@ Using docker
      $ docker-compose down --volume # to make sure to remove shared volume
      $ docker-compose up --build --force-recreate # here --force-recreate is optional
 ```
-- ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) `Note`If you interested to run it from locally without Docker please ensure database and .env exist
+- ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) `Note`If you interested to run it from locally without Docker please ensure database and .env properly configured
+- >go run /cmd/app/main.go
 >Example .env file
 >>_GIN_PORT=8080 \
 GIN_MODE=debug \
@@ -38,13 +39,13 @@ book-info-graphql
 │    │    │  └── loader.go
 │    │    └── main.go
 ├── graph
-│    ├── ***                  - All graph reated code along with auto generated code
+│    ├── ***                  - All graph related code along with auto generated code
 ├── internal
 │    └── app
 │         ├── adapter         - Outer layer. All framework and external database and middlewares related code 
-│         ├── application     - Middle layer Usecase or buniness logic relaed code here
+│         ├── application     - Middle layer. Usecase or buniness logic relaed code
 │         │    └── usecase
-│         └── domain          - inner layer. Domain, interface and factory related code
+│         └── domain          - Inner layer. Domain, interface and factory related code
 │              ├── interface
 │              └── factory
 └── .env
